@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Home, DollarSign, TrendingUp, Zap, Leaf, Users } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -77,40 +78,70 @@ const Index = () => {
   );
 };
 
-const DashboardContent = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <Card>
-      <CardHeader>
-        <CardTitle>Home Value</CardTitle>
-        <CardDescription>Current estimated value of your home</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-3xl font-bold">$450,000</p>
-        <p className="text-sm text-green-600">↑ 5.2% from last year</p>
-      </CardContent>
-    </Card>
-    <Card>
-      <CardHeader>
-        <CardTitle>Monthly Expenses</CardTitle>
-        <CardDescription>Average home-related expenses</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-3xl font-bold">$2,500</p>
-        <p className="text-sm text-red-600">↑ 3.1% from last month</p>
-      </CardContent>
-    </Card>
-    <Card>
-      <CardHeader>
-        <CardTitle>Potential Tax Savings</CardTitle>
-        <CardDescription>Estimated savings for this year</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-3xl font-bold">$3,200</p>
-        <p className="text-sm text-green-600">↑ 12% from last year</p>
-      </CardContent>
-    </Card>
-  </div>
-);
+const DashboardContent = () => {
+  const monthlyExpensesData = [
+    { month: 'Jan', amount: 2300 },
+    { month: 'Feb', amount: 2400 },
+    { month: 'Mar', amount: 2200 },
+    { month: 'Apr', amount: 2600 },
+    { month: 'May', amount: 2500 },
+    { month: 'Jun', amount: 2700 },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Home Value</CardTitle>
+            <CardDescription>Current estimated value of your home</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold">$450,000</p>
+            <p className="text-sm text-green-600">↑ 5.2% from last year</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Monthly Expenses</CardTitle>
+            <CardDescription>Average home-related expenses</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold">$2,500</p>
+            <p className="text-sm text-red-600">↑ 3.1% from last month</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Potential Tax Savings</CardTitle>
+            <CardDescription>Estimated savings for this year</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold">$3,200</p>
+            <p className="text-sm text-green-600">↑ 12% from last year</p>
+          </CardContent>
+        </Card>
+      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Monthly Expenses Trend</CardTitle>
+          <CardDescription>Last 6 months of home-related expenses</CardDescription>
+        </CardHeader>
+        <CardContent className="h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={monthlyExpensesData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="amount" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
 const ExpensesContent = () => (
   <div className="space-y-6">
